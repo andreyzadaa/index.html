@@ -16,88 +16,53 @@
         }
         .container {
             text-align: center;
-            background-color: white;
+            background: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        h1 {
-            color: #333;
-        }
         button {
-            padding: 10px 20px;
             margin: 10px;
+            padding: 10px 20px;
             font-size: 16px;
-            border: none;
-            border-radius: 5px;
             cursor: pointer;
         }
-        #sim {
-            background-color: #4CAF50;
-            color: white;
-        }
-        #nao {
-            background-color: #f44336;
-            color: white;
+        #no-button {
             position: relative;
-        }
-        .mensagem {
-            display: none;
-            margin-top: 20px;
-            font-size: 18px;
-            color: #333;
-        }
-        .confete {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>A Blum é esquisita?</h1>
-        <button id="sim">Sim</button>
-        <button id="nao">Não</button>
-        <div class="mensagem" id="mensagem"></div>
-        <div class="confete" id="confete"></div>
+        <h1 id="question">A Blum é esquisita?</h1>
+        <button id="yes-button">Sim</button>
+        <button id="no-button">Não</button>
     </div>
 
     <script>
-        const naoBtn = document.getElementById('nao');
-        const simBtn = document.getElementById('sim');
-        const mensagem = document.getElementById('mensagem');
-        const confete = document.getElementById('confete');
+        const yesButton = document.getElementById('yes-button');
+        const noButton = document.getElementById('no-button');
+        const question = document.getElementById('question');
+        const container = document.querySelector('.container');
 
-        // Função para mover o botão "Não" aleatoriamente
-        function moverBotao() {
-            const container = document.querySelector('.container');
-            const containerRect = container.getBoundingClientRect();
-            const btnRect = naoBtn.getBoundingClientRect();
+        yesButton.addEventListener('click', () => {
+            question.textContent = 'Otária';
+            yesButton.style.display = 'none';
+            noButton.style.display = 'none';
+        });
 
-            let newLeft = Math.random() * (containerRect.width - btnRect.width);
-            let newTop = Math.random() * (containerRect.height - btnRect.height);
+        noButton.addEventListener('click', () => {
+            // Move o botão para uma posição aleatória
+            const maxX = window.innerWidth - noButton.offsetWidth;
+            const maxY = window.innerHeight - noButton.offsetHeight;
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+            noButton.style.position = 'absolute';
+            noButton.style.left = randomX + 'px';
+            noButton.style.top = randomY + 'px';
 
-            naoBtn.style.position = 'absolute';
-            naoBtn.style.left = newLeft + 'px';
-            naoBtn.style.top = newTop + 'px';
-        }
-
-        // Evento para mover o botão "Não" quando o mouse passa por cima
-        naoBtn.addEventListener('mouseover', moverBotao);
-
-        // Evento para o botão "Sim" - mostra mensagem e confete
-        simBtn.addEventListener('click', function() {
-            mensagem.textContent = "Otária";
-            mensagem.style.display = 'block';
-            confete.style.display = 'block';
-            setTimeout(() => {
-                confete.style.display = 'none';
-            }, 3000); // Esconde o confete após 3 segundos
+            // Mostra o alert
+            alert('Não mente');
         });
     </script>
 </body>
