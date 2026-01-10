@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aaaaaaaaaaaaaa</title>
+    <title>Calculadora Simples</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,58 +12,104 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background: #f0f0f0;
         }
-        .container {
-            text-align: center;
-            background: white;
-            padding: 20px;
+        .calculator {
+            width: 300px;
+            background: #333;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+        #display {
+            width: 100%;
+            height: 60px;
+            font-size: 24px;
+            text-align: right;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 5px;
+            background: #fff;
+            color: #333;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
         }
         button {
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
+            height: 60px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
+            transition: background 0.2s;
         }
-        #no-button {
-            position: relative;
+        button.number {
+            background: #666;
+            color: white;
+        }
+        button.operator {
+            background: #ff9500;
+            color: white;
+        }
+        button.equal {
+            background: #28a745;
+            color: white;
+            grid-column: span 2;
+        }
+        button.clear {
+            background: #dc3545;
+            color: white;
+        }
+        button:hover {
+            opacity: 0.8;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1 id="question">A Blum é esquisita?</h1>
-        <button id="yes-button">Sim</button>
-        <button id="no-button">Não</button>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <div class="buttons">
+            <button class="clear" onclick="clearDisplay()">Deleta aí</button>
+            <button class="operator" onclick="appendToDisplay('/')">/</button>
+            <button class="operator" onclick="appendToDisplay('*')">*</button>
+            <button class="operator" onclick="appendToDisplay('-')">-</button>
+            <button class="number" onclick="appendToDisplay('7')">7</button>
+            <button class="number" onclick="appendToDisplay('8')">8</button>
+            <button class="number" onclick="appendToDisplay('9')">9</button>
+            <button class="operator" onclick="appendToDisplay('+')">+</button>
+            <button class="number" onclick="appendToDisplay('4')">4</button>
+            <button class="number" onclick="appendToDisplay('5')">5</button>
+            <button class="number" onclick="appendToDisplay('6')">6</button>
+            <button class="number" onclick="appendToDisplay('1')">1</button>
+            <button class="number" onclick="appendToDisplay('2')">2</button>
+            <button class="number" onclick="appendToDisplay('3')">3</button>
+            <button class="equal" onclick="calculate()">=</button>
+            <button class="number" onclick="appendToDisplay('0')">0</button>
+            <button class="number" onclick="appendToDisplay('.')">.</button>
+        </div>
     </div>
 
     <script>
-        const yesButton = document.getElementById('yes-button');
-        const noButton = document.getElementById('no-button');
-        const question = document.getElementById('question');
-        const container = document.querySelector('.container');
+        let display = document.getElementById('display');
 
-        yesButton.addEventListener('click', () => {
-            question.textContent = 'Otária';
-            yesButton.style.display = 'none';
-            noButton.style.display = 'none';
-        });
+        function appendToDisplay(value) {
+            display.value += value;
+        }
 
-        noButton.addEventListener('click', () => {
-            // Move o botão para uma posição aleatória
-            const maxX = window.innerWidth - noButton.offsetWidth;
-            const maxY = window.innerHeight - noButton.offsetHeight;
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY);
-            noButton.style.position = 'absolute';
-            noButton.style.left = randomX + 'px';
-            noButton.style.top = randomY + 'px';
+        function clearDisplay() {
+            display.value = '';
+        }
 
-            // Mostra o alert
-            alert('Não mente');
-        });
+        function calculate() {
+            try {
+                display.value = eval(display.value);
+            } catch (error) {
+                display.value = 'Erro';
+            }
+        }
     </script>
 </body>
 </html>
